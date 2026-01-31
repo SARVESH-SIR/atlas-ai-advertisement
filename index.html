@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/jpeg" href="ATLAS AI LOGO.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="ATLAS AI LOGO.jpg">
+  <link rel="apple-touch-icon" href="ATLAS AI LOGO.jpg">
+  <title>ATLAS AI – Intelligent Telegram Assistant</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: 
+        radial-gradient(ellipse at top, #1a0033 0%, #0d001a 40%, #000000 100%),
+        linear-gradient(135deg, #0a0014, #1a0033, #330066);
+      color: #ffffff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+
+    .logo-container {
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      box-shadow: 
+        0 0 60px rgba(138, 43, 226, 0.8),
+        0 0 100px rgba(255, 20, 147, 0.6),
+        inset 0 0 30px rgba(138, 43, 226, 0.4);
+      animation: pulse 2s infinite;
+      border: 3px solid rgba(255, 20, 147, 0.6);
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.2), rgba(255, 20, 147, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      display: block;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    @keyframes pulse {
+      0% { 
+        box-shadow: 
+          0 0 40px rgba(138, 43, 226, 0.6), 
+          0 0 80px rgba(255, 20, 147, 0.4),
+          inset 0 0 20px rgba(138, 43, 226, 0.3);
+      }
+      50% { 
+        box-shadow: 
+          0 0 60px rgba(138, 43, 226, 0.9), 
+          0 0 120px rgba(255, 20, 147, 0.6),
+          inset 0 0 40px rgba(138, 43, 226, 0.5);
+      }
+      100% { 
+        box-shadow: 
+          0 0 40px rgba(138, 43, 226, 0.6), 
+          0 0 80px rgba(255, 20, 147, 0.4),
+          inset 0 0 20px rgba(138, 43, 226, 0.3);
+      }
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+      background: linear-gradient(45deg, #00ffd5, #8a2be2, #ff1493);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .cta {
+      margin-top: 30px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .cta a {
+      background: linear-gradient(45deg, #8a2be2, #ff1493);
+      color: #fff;
+      padding: 18px 35px;
+      border-radius: 35px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+      position: relative;
+      overflow: hidden;
+      z-index: 101;
+      display: inline-block;
+    }
+
+    .cta a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .cta a:hover::before {
+      left: 100%;
+    }
+
+    .cta a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
+    }
+
+    .section {
+      margin-top: 70px;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      background: linear-gradient(45deg, #8a2be2, #ff1493);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 50px;
+      margin-top: 40px;
+      padding: 30px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 100%;
+      height: 240px;
+      perspective: 1000px;
+      margin: 15px 0;
+      isolation: isolate;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+      left: 0;
+      top: 0;
+      z-index: 1;
+    }
+
+    .flip-card-front {
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(255, 20, 147, 0.2));
+      border: 2px solid rgba(138, 43, 226, 0.4);
+      box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
+      z-index: 2;
+    }
+
+    .flip-card-back {
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(255, 20, 147, 0.3));
+      border: 2px solid rgba(255, 20, 147, 0.4);
+      box-shadow: 0 8px 32px rgba(255, 20, 147, 0.3);
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+
+    /* Theme-specific card styles */
+    .science-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(0, 86, 179, 0.2));
+      border: 2px solid rgba(0, 123, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 123, 255, 0.4);
+    }
+
+    .science-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(0, 86, 179, 0.3), rgba(0, 123, 255, 0.2));
+      border: 2px solid rgba(0, 86, 179, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 86, 179, 0.4);
+    }
+
+    .history-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(160, 82, 45, 0.2));
+      border: 2px solid rgba(139, 69, 19, 0.5);
+      box-shadow: 0 8px 32px rgba(139, 69, 19, 0.4);
+    }
+
+    .history-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(160, 82, 45, 0.3), rgba(139, 69, 19, 0.2));
+      border: 2px solid rgba(160, 82, 45, 0.5);
+      box-shadow: 0 8px 32px rgba(160, 82, 45, 0.4);
+    }
+
+    .arts-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(255, 20, 147, 0.3), rgba(219, 112, 147, 0.2));
+      border: 2px solid rgba(255, 20, 147, 0.5);
+      box-shadow: 0 8px 32px rgba(255, 20, 147, 0.4);
+    }
+
+    .arts-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(219, 112, 147, 0.3), rgba(255, 20, 147, 0.2));
+      border: 2px solid rgba(219, 112, 147, 0.5);
+      box-shadow: 0 8px 32px rgba(219, 112, 147, 0.4);
+    }
+
+    .health-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(40, 167, 69, 0.3), rgba(76, 175, 80, 0.2));
+      border: 2px solid rgba(40, 167, 69, 0.5);
+      box-shadow: 0 8px 32px rgba(40, 167, 69, 0.4);
+    }
+
+    .health-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(40, 167, 69, 0.2));
+      border: 2px solid rgba(76, 175, 80, 0.5);
+      box-shadow: 0 8px 32px rgba(76, 175, 80, 0.4);
+    }
+
+    .business-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.2));
+      border: 2px solid rgba(255, 193, 7, 0.5);
+      box-shadow: 0 8px 32px rgba(255, 193, 7, 0.4);
+    }
+
+    .business-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(255, 152, 0, 0.3), rgba(255, 193, 7, 0.2));
+      border: 2px solid rgba(255, 152, 0, 0.5);
+      box-shadow: 0 8px 32px rgba(255, 152, 0, 0.4);
+    }
+
+    .more-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.3), rgba(103, 58, 183, 0.2));
+      border: 2px solid rgba(156, 39, 176, 0.5);
+      box-shadow: 0 8px 32px rgba(156, 39, 176, 0.4);
+    }
+
+    .more-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(103, 58, 183, 0.3), rgba(156, 39, 176, 0.2));
+      border: 2px solid rgba(103, 58, 183, 0.5);
+      box-shadow: 0 8px 32px rgba(103, 58, 183, 0.4);
+    }
+
+    .data-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(3, 169, 244, 0.2));
+      border: 2px solid rgba(33, 150, 243, 0.5);
+      box-shadow: 0 8px 32px rgba(33, 150, 243, 0.4);
+    }
+
+    .data-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(3, 169, 244, 0.3), rgba(33, 150, 243, 0.2));
+      border: 2px solid rgba(3, 169, 244, 0.5);
+      box-shadow: 0 8px 32px rgba(3, 169, 244, 0.4);
+    }
+
+    .creative-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(255, 87, 34, 0.3), rgba(255, 152, 0, 0.2));
+      border: 2px solid rgba(255, 87, 34, 0.5);
+      box-shadow: 0 8px 32px rgba(255, 87, 34, 0.4);
+    }
+
+    .creative-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(255, 152, 0, 0.3), rgba(255, 87, 34, 0.2));
+      border: 2px solid rgba(255, 152, 0, 0.5);
+      box-shadow: 0 8px 32px rgba(255, 152, 0, 0.4);
+    }
+
+    .brainstorm-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(121, 85, 72, 0.3), rgba(141, 110, 99, 0.2));
+      border: 2px solid rgba(121, 85, 72, 0.5);
+      box-shadow: 0 8px 32px rgba(121, 85, 72, 0.4);
+    }
+
+    .brainstorm-theme .flip-card-back {
+      background: linear-gradient(135deg, rgba(141, 110, 99, 0.3), rgba(121, 85, 72, 0.2));
+      border: 2px solid rgba(141, 110, 99, 0.5);
+      box-shadow: 0 8px 32px rgba(141, 110, 99, 0.4);
+    }
+
+    .education-theme .flip-card-front {
+      background: linear-gradient(135deg, rgba(63, 81, 181, 0.3), rgba(92, 107, 192, 0.2));
+      border: 2px solid rgba(63, 81, 181, 0.5);
+      box-shadow: 0 8px 32px rgba(63, 81, 181, 0.4);
+    }
+
+    /* Language switcher styles */
+    .language-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(138, 43, 226, 0.2);
+      border: 2px solid rgba(138, 43, 226, 0.4);
+      border-radius: 25px;
+      padding: 8px 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(138, 43, 226, 0.3);
+    }
+
+    .language-switcher select {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .language-switcher select option {
+      background: #1a0033;
+      color: #ffffff;
+    }
+
+    .lang-text {
+      display: none;
+    }
+
+    .lang-text.active {
+      display: block;
+    }
+
+    .flip-card-front h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #ff1493;
+      text-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+    }
+
+    .flip-card-front .emoji {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    .flip-card-back p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(138, 43, 226, 0.1);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      background: rgba(138, 43, 226, 0.15);
+      border-color: rgba(138, 43, 226, 0.5);
+      box-shadow: 0 15px 40px rgba(138, 43, 226, 0.3);
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: #ff1493;
+      font-size: 1.4rem;
+      text-shadow: 0 0 10px rgba(255, 20, 147, 0.6);
+    }
+
+    .about {
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    footer {
+      margin-top: 100px;
+      text-align: center;
+      opacity: 0.8;
+      font-size: 0.9rem;
+      padding: 30px 20px;
+      border-top: 1px solid rgba(138, 43, 226, 0.3);
+      background: rgba(138, 43, 226, 0.05);
+    }
+
+    /* Enhanced floating particles with logo colors */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(3px 3px at 25% 25%, rgba(138, 43, 226, 0.4), transparent),
+        radial-gradient(2px 2px at 75% 75%, rgba(255, 20, 147, 0.4), transparent),
+        radial-gradient(4px 4px at 50% 10%, rgba(186, 85, 211, 0.3), transparent),
+        radial-gradient(2px 2px at 80% 30%, rgba(138, 43, 226, 0.3), transparent),
+        radial-gradient(3px 3px at 20% 60%, rgba(255, 20, 147, 0.3), transparent);
+      background-size: 300px 300px, 200px 200px, 250px 250px, 180px 180px, 220px 220px;
+      animation: float 25s infinite linear;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 20, 147, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(186, 85, 211, 0.05) 0%, transparent 70%);
+      animation: glow 10s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-100px, -100px) rotate(360deg); }
+    }
+
+    @keyframes glow {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.7; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="language-switcher">
+    <select id="languageSelect" onchange="changeLanguage()">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+      <option value="zh">中文</option>
+      <!-- Indian Languages -->
+      <option value="hi">हिंदी (Hindi)</option>
+      <option value="bn">বাংলা (Bengali)</option>
+      <option value="ta">தமிழ் (Tamil)</option>
+      <option value="te">తెలుగు (Telugu)</option>
+      <option value="mr">मराठी (Marathi)</option>
+      <option value="gu">ગુજરાતી (Gujarati)</option>
+      <option value="kn">ಕನ್ನಡ (Kannada)</option>
+      <option value="ml">മലയാളം (Malayalam)</option>
+      <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+      <!-- Other Languages -->
+      <option value="ja">日本語</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
+
+  <div class="container">
+
+    <header>
+      <div class="logo-container">
+        <div class="logo">
+          <img src="ATLAS AI LOGO.jpg" alt="ATLAS AI Logo">
+        </div>
+      </div>
+      <h1>
+        <span class="lang-text active" data-lang="en">ATLAS AI</span>
+        <span class="lang-text" data-lang="es">ATLAS IA</span>
+        <span class="lang-text" data-lang="fr">ATLAS IA</span>
+        <span class="lang-text" data-lang="de">ATLAS KI</span>
+        <span class="lang-text" data-lang="zh">ATLAS 人工智能</span>
+        <!-- Indian Languages -->
+        <span class="lang-text" data-lang="hi">ATLAS AI</span>
+        <span class="lang-text" data-lang="bn">ATLAS AI</span>
+        <span class="lang-text" data-lang="ta">ATLAS AI</span>
+        <span class="lang-text" data-lang="te">ATLAS AI</span>
+        <span class="lang-text" data-lang="mr">ATLAS AI</span>
+        <span class="lang-text" data-lang="gu">ATLAS AI</span>
+        <span class="lang-text" data-lang="kn">ATLAS AI</span>
+        <span class="lang-text" data-lang="ml">ATLAS AI</span>
+        <span class="lang-text" data-lang="pa">ATLAS AI</span>
+        <!-- Other Languages -->
+        <span class="lang-text" data-lang="ja">ATLAS AI</span>
+        <span class="lang-text" data-lang="ar">أطلس AI</span>
+      </h1>
+      <p>
+        <span class="lang-text active" data-lang="en">I am ATLAS, a highly advanced and intelligent AI assistant, designed to provide comprehensive and helpful responses to your queries. 🤓</span>
+        <span class="lang-text" data-lang="es">Soy ATLAS, un asistente de IA altamente avanzado e inteligente, diseñado para proporcionar respuestas integrales y útiles a tus consultas. 🤓</span>
+        <span class="lang-text" data-lang="fr">Je suis ATLAS, un assistant IA très avancé et intelligent, conçu pour fournir des réponses complètes et utiles à vos questions. 🤓</span>
+        <span class="lang-text" data-lang="de">Ich bin ATLAS, ein hochfortschrittlicher und intelligenter KI-Assistent, der entwickelt wurde, um umfassende und hilfreiche Antworten auf Ihre Anfragen zu geben. 🤓</span>
+        <span class="lang-text" data-lang="zh">我是ATLAS，一个高度先进和智能的人工智能助手，旨在为您的查询提供全面而有帮助的回复。🤓</span>
+        <!-- Indian Languages -->
+        <span class="lang-text" data-lang="hi">मैं ATLAS हूँ, एक अत्यधिक उन्नत और बुद्धिमान AI सहायक, जो आपकी पूछताछ के लिए व्यापक और सहायक प्रतिक्रियाएं प्रदान करने के लिए डिज़ाइन किया गया है। 🤓</span>
+        <span class="lang-text" data-lang="bn">আমি ATLAS, একটি অত্যন্ত উন্নত এবং বুদ্ধিমান AI সহকারী, যা আপনার প্রশ্নের জন্য বিস্তৃত এবং সহায়ক প্রতিক্রিয়া প্রদান করার জন্য ডিজাইন করা হয়েছে। 🤓</span>
+        <span class="lang-text" data-lang="ta">நான் ATLAS, ஒரு மிகவும் மேம்பட்ட மற்றும் நுண்ணறிவு AI உதவியாளர், உங்கள் வினவல்களுக்கு விரிவான மற்றும் பயனுள்ள பதில்களை வழங்குவதற்கு வடிவமைக்கப்பட்டுள்ளேன்। 🤓</span>
+        <span class="lang-text" data-lang="te">నేను ATLAS, ఒక అత్యంత అధునాతన మరియు తెలివైన AI సహాయకుడు, మీ ప్రశ్నలకు సమగ్రమైన మరియు సహాయక స్పందనలను అందించడానికి రూపొందించబడ్డాను. 🤓</span>
+        <span class="lang-text" data-lang="mr">मी ATLAS आहे, एक अत्यंत प्रगत आणि बुद्धिमान AI सहाय्यक, जो तुमच्या प्रश्नांसाठी व्यापक आणि मदतनीश प्रतिसाद देण्यासाठी डिझाइन केले आहे. 🤓</span>
+        <span class="lang-text" data-lang="gu">હું ATLAS છું, એક અત્યંત અદ્યતન અને બુદ્ધિમાન AI સહાયક, જે તમારા પ્રશ્નો માટે વ્યાપક અને મદદનીશ પ્રતિસાદ આપવા માટે ડિઝાઇન કરેલ છે. 🤓</span>
+        <span class="lang-text" data-lang="kn">ನಾನು ATLAS, ಒಂದು ಅತ್ಯಂತ ಸುಧಾರಿತ ಮತ್ತು ಬುದ್ಧಿವಂತ AI ಸಹಾಯಕ, ನಿಮ್ಮ ಪ್ರಶ್ನೆಗಳಿಗೆ ವ್ಯಾಪಕ ಮತ್ತು ಸಹಾಯಕ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಒದಗಿಸಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ. 🤓</span>
+        <span class="lang-text" data-lang="ml">ഞാൻ ATLAS ആണ്, ഒരു അത്യാധുനികവും ബുദ്ധിമാനവുമായ AI അസിസ്റ്റന്റ്, നിങ്ങളുടെ ചോദ്യങ്ങൾക്ക് സമഗ്രവും സഹായകവുമായ പ്രതികരണങ്ങൾ നൽകുന്നതിനായി രൂപകൽപ്പന ചെയ്തിരിക്കുന്നു. 🤓</span>
+        <span class="lang-text" data-lang="pa">ਮੈਂ ATLAS ਹਾਂ, ਇੱਕ ਬਹੁਤ ਉੱਨਤ ਅਤੇ ਬੁੱਧੀਮਾਨ AI ਸਹਾਇਕ, ਜੋ ਤੁਹਾਡੇ ਸਵਾਲਾਂ ਲਈ ਵਿਸ਼ਾਲ ਅਤੇ ਸਹਾਇਕ ਜਵਾਬ ਦੇਣ ਲਈ ਡਿਜ਼ਾਈਨ ਕੀਤਾ ਗਿਆ ਹੈ। 🤓</span>
+        <!-- Other Languages -->
+        <span class="lang-text" data-lang="ja">私はATLASです。高度に進化したインテリジェントAIアシスタントであり、ご質問に対して包括的で有用な回答を提供するよう設計されています。🤓</span>
+        <span class="lang-text" data-lang="ar">أنا ATLAS، مساعد ذكاء اصطناعي متقدم للغاية وذكي، مصمم لتقديم استجابات شاملة ومفيدة لاستفساراتك. 🤓</span>
+      </p>
+      <div class="cta">
+        <a href="https://t.me/kvsatlas_bot" target="_blank">
+          <span class="lang-text active" data-lang="en">ATLAS AI on Telegram</span>
+          <span class="lang-text" data-lang="es">ATLAS IA en Telegram</span>
+          <span class="lang-text" data-lang="fr">ATLAS IA sur Telegram</span>
+          <span class="lang-text" data-lang="de">ATLAS KI auf Telegram</span>
+          <span class="lang-text" data-lang="zh">ATLAS AI 在 Telegram</span>
+          <!-- Indian Languages -->
+          <span class="lang-text" data-lang="hi">Telegram पर ATLAS AI</span>
+          <span class="lang-text" data-lang="bn">টেলিগ্রামে ATLAS AI</span>
+          <span class="lang-text" data-lang="ta">டெலிகிராமில் ATLAS AI</span>
+          <span class="lang-text" data-lang="te">టెలిగ్రామ్‌లో ATLAS AI</span>
+          <span class="lang-text" data-lang="mr">टेलिग्रामवर ATLAS AI</span>
+          <span class="lang-text" data-lang="gu">ટેલિગ્રામ પર ATLAS AI</span>
+          <span class="lang-text" data-lang="kn">ಟೆಲಿಗ್ರಾಮ್‌ನಲ್ಲಿ ATLAS AI</span>
+          <span class="lang-text" data-lang="ml">ടെലിഗ്രാമിൽ ATLAS AI</span>
+          <span class="lang-text" data-lang="pa">ਟੈਲੀਗ੍ਰਾਮ 'ਤੇ ATLAS AI</span>
+          <!-- Other Languages -->
+          <span class="lang-text" data-lang="ja">TelegramでATLAS AI</span>
+          <span class="lang-text" data-lang="ar">أطلس AI على تيليجرام</span>
+        </a>
+      </div>
+    </header>
+
+    <section class="section">
+      <h2>
+        <span class="lang-text active" data-lang="en">Features and Abilities</span>
+        <span class="lang-text" data-lang="es">Características y Habilidades</span>
+        <span class="lang-text" data-lang="fr">Caractéristiques et Compétences</span>
+        <span class="lang-text" data-lang="de">Funktionen und Fähigkeiten</span>
+        <span class="lang-text" data-lang="zh">功能和能力</span>
+        <!-- Indian Languages -->
+        <span class="lang-text" data-lang="hi">विशेषताएं और क्षमताएं</span>
+        <span class="lang-text" data-lang="bn">বৈশিষ্ট্য এবং ক্ষমতা</span>
+        <span class="lang-text" data-lang="ta">அம்சங்கள் மற்றும் திறன்கள்</span>
+        <span class="lang-text" data-lang="te">లక్షణాలు మరియు సామర్థ్యాలు</span>
+        <span class="lang-text" data-lang="mr">वैशिष्ट्ये आणि क्षमता</span>
+        <span class="lang-text" data-lang="gu">લક્ષણો અને ક્ષમતાઓ</span>
+        <span class="lang-text" data-lang="kn">ವೈಶಿಷ್ಟ್ಯಗಳು ಮತ್ತು ಸಾಮರ್ಥ್ಯಗಳು</span>
+        <span class="lang-text" data-lang="ml">സവിശേഷതകളും കഴിവുകളും</span>
+        <span class="lang-text" data-lang="pa">ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਅਤੇ ਯੋਗਤਾਵਾਂ</span>
+        <!-- Other Languages -->
+        <span class="lang-text" data-lang="ja">機能と能力</span>
+        <span class="lang-text" data-lang="ar">الميزات والقدرات</span>
+      </h2>
+      <p class="about" style="margin-bottom: 40px;">
+        <span class="lang-text active" data-lang="en">I am ATLAS, a highly advanced and intelligent AI assistant, designed to provide comprehensive and helpful responses to your queries.</span>
+        <span class="lang-text" data-lang="es">Soy ATLAS, un asistente de IA altamente avanzado e inteligente, diseñado para proporcionar respuestas integrales y útiles a tus consultas.</span>
+        <span class="lang-text" data-lang="fr">Je suis ATLAS, un assistant IA très avancé et intelligent, conçu pour fournir des réponses complètes et utiles à vos questions.</span>
+        <span class="lang-text" data-lang="de">Ich bin ATLAS, ein hochfortschrittlicher und intelligenter KI-Assistent, der entwickelt wurde, um umfassende und hilfreiche Antworten auf Ihre Anfragen zu geben.</span>
+        <span class="lang-text" data-lang="zh">我是ATLAS，一个高度先进和智能的人工智能助手，旨在为您的查询提供全面而有帮助的回复。</span>
+        <!-- Indian Languages -->
+        <span class="lang-text" data-lang="hi">मैं ATLAS हूँ, एक अत्यधिक उन्नत और बुद्धिमान AI सहायक, जो आपकी पूछताछ के लिए व्यापक और सहायक प्रतिक्रियाएं प्रदान करने के लिए डिज़ाइन किया गया है।</span>
+        <span class="lang-text" data-lang="bn">আমি ATLAS, একটি অত্যন্ত উন্নত এবং বুদ্ধিমান AI সহকারী, যা আপনার প্রশ্নের জন্য বিস্তৃত এবং সহায়ক প্রতিক্রিয়া প্রদান করার জন্য ডিজাইন করা হয়েছে।</span>
+        <span class="lang-text" data-lang="ta">நான் ATLAS, ஒரு மிகவும் மேம்பட்ட மற்றும் நுண்ணறிவு AI உதவியாளர், உங்கள் வினவல்களுக்கு விரிவான மற்றும் பயனுள்ள பதில்களை வழங்குவதற்கு வடிவமைக்கப்பட்டுள்ளேன்।</span>
+        <span class="lang-text" data-lang="te">నేను ATLAS, ఒక అత్యంత అధునాతన మరియు తెలివైన AI సహాయకుడు, మీ ప్రశ్నలకు సమగ్రమైన మరియు సహాయక స్పందనలను అందించడానికి రూపొందించబడ్డాను.</span>
+        <span class="lang-text" data-lang="mr">मी ATLAS आहे, एक अत्यंत प्रगत आणि बुद्धिमान AI सहाय्यक, जो तुमच्या प्रश्नांसाठी व्यापक आणि मदतनीश प्रतिसाद देण्यासाठी डिझाइन केले आहे.</span>
+        <span class="lang-text" data-lang="gu">હું ATLAS છું, એક અત્યંત અદ્યતન અને બુદ્ધિમાન AI સહાયક, જે તમારા પ્રશ્નો માટે વ્યાપક અને મદદનીશ પ્રતિસાદ આપવા માટે ડિઝાઇન કરેલ છે.</span>
+        <span class="lang-text" data-lang="kn">ನಾನು ATLAS, ಒಂದು ಅತ್ಯಂತ ಸುಧಾರಿತ ಮತ್ತು ಬುದ್ಧಿವಂತ AI ಸಹಾಯಕ, ನಿಮ್ಮ ಪ್ರಶ್ನೆಗಳಿಗೆ ವ್ಯಾಪಕ ಮತ್ತು ಸಹಾಯಕ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಒದಗಿಸಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ.</span>
+        <span class="lang-text" data-lang="ml">ഞാൻ ATLAS ആണ്, ഒരു അത്യാധുനികവും ബുദ്ധിമാനവുമായ AI അസിസ്റ്റന്റ്, നിങ്ങളുടെ ചോദ്യങ്ങൾക്ക് സമഗ്രവും സഹായകവുമായ പ്രതികരണങ്ങൾ നൽകുന്നതിനായി രൂപകൽപ്പന ചെയ്തിരിക്കുന്നു.</span>
+        <span class="lang-text" data-lang="pa">ਮੈਂ ATLAS ਹਾਂ, ਇੱਕ ਬਹੁਤ ਉੱਨਤ ਅਤੇ ਬੁੱਧੀਮਾਨ AI ਸਹਾਇਕ, ਜੋ ਤੁਹਾਡੇ ਸਵਾਲਾਂ ਲਈ ਵਿਸ਼ਾਲ ਅਤੇ ਸਹਾਇਕ ਜਵਾਬ ਦੇਣ ਲਈ ਡਿਜ਼ਾਈਨ ਕੀਤਾ ਗਿਆ ਹੈ।</span>
+        <!-- Other Languages -->
+        <span class="lang-text" data-lang="ja">私はATLASです。高度に進化したインテリジェントAIアシスタントであり、ご質問に対して包括的で有用な回答を提供するよう設計されています。</span>
+        <span class="lang-text" data-lang="ar">أنا ATLAS، مساعد ذكاء اصطناعي متقدم للغاية وذكي، مصمم لتقديم استجابات شاملة ومفيدة لاستفساراتك.</span>
+      </p>
+      
+      <div class="features">
+        <div class="flip-card science-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">🚀</div>
+              <h3>
+                <span class="lang-text active" data-lang="en">Science and Technology</span>
+                <span class="lang-text" data-lang="es">Ciencia y Tecnología</span>
+                <span class="lang-text" data-lang="fr">Science et Technologie</span>
+                <span class="lang-text" data-lang="de">Wissenschaft und Technologie</span>
+                <span class="lang-text" data-lang="zh">科学与技术</span>
+                <!-- Indian Languages -->
+                <span class="lang-text" data-lang="hi">विज्ञान और प्रौद्योगिकी</span>
+                <span class="lang-text" data-lang="bn">বিজ্ঞান এবং প্রযুক্তি</span>
+                <span class="lang-text" data-lang="ta">அறிவியல் மற்றும் தொழில்நுட்பம்</span>
+                <span class="lang-text" data-lang="te">విజ్ఞాన శాస్త్రం మరియు సాంకేతికత</span>
+                <span class="lang-text" data-lang="mr">विज्ञान आणि तंत्रज्ञान</span>
+                <span class="lang-text" data-lang="gu">વિજ્ઞાન અને ટેકનોલોજી</span>
+                <span class="lang-text" data-lang="kn">ವಿಜ್ಞಾನ ಮತ್ತು ತಂತ್ರಜ್ಞಾನ</span>
+                <span class="lang-text" data-lang="ml">ശാസ്ത്രവും സാങ്കേതികവും</span>
+                <span class="lang-text" data-lang="pa">ਵਿਗਿਆਨ ਅਤੇ ਤਕਨਾਲੋਜੀ</span>
+                <!-- Other Languages -->
+                <span class="lang-text" data-lang="ja">科学技術</span>
+                <span class="lang-text" data-lang="ar">العلوم والتكنولوجيا</span>
+              </h3>
+            </div>
+            <div class="flip-card-back">
+              <p>
+                <span class="lang-text active" data-lang="en">I can explain complex scientific concepts, discuss latest technological innovations, and help you understand the cutting-edge developments shaping our future.</span>
+                <span class="lang-text" data-lang="es">Puedo explicar conceptos científicos complejos, discutir las últimas innovaciones tecnológicas y ayudarte a entender los desarrollos de vanguardia que moldean nuestro futuro.</span>
+                <span class="lang-text" data-lang="fr">Je peux expliquer des concepts scientifiques complexes, discuter des dernières innovations technologiques et vous aider à comprendre les développements de pointe qui façonnent notre avenir.</span>
+                <span class="lang-text" data-lang="de">Ich kann komplexe wissenschaftliche Konzepte erklären, die neuesten technologischen Innovationen diskutieren und Ihnen helfen, die wegweisenden Entwicklungen zu verstehen, die unsere Zukunft gestalten.</span>
+                <span class="lang-text" data-lang="zh">我可以解释复杂的科学概念，讨论最新的技术创新，并帮助您了解塑造我们未来的前沿发展。</span>
+                <!-- Indian Languages -->
+                <span class="lang-text" data-lang="hi">मैं जटिल वैज्ञानिक अवधारणाओं की व्याख्या कर सकता हूँ, नवीनतम तकनीकी नवाचारों पर चर्चा कर सकता हूँ, और आपको हमारे भविष्य को आकार देने वाले अत्याधुनिक विकास को समझने में मदद कर सकता हूँ।</span>
+                <span class="lang-text" data-lang="bn">আমি জটিল বৈজ্ঞানিক ধারণাগুলি ব্যাখ্যা করতে পারি, সর্বশেষ প্রযুক্তিগত উদ্ভাবনগুলি আলোচনা করতে পারি, এবং আপনাকে আমাদের ভবিষ্যতের আকার দেওয়া অত্যাধুনিক বিকাশগুলি বোঝতে সাহায্য করতে পারি।</span>
+                <span class="lang-text" data-lang="ta">நான் சிக்கலான அறிவியல் கருத்துக்களை விளக்கலாம், சமீபத்திய தொழில்நுட்ப புதுமைகளைப் பற்றி விவாதிக்கலாம், மேலும் எங்கள் எதிர்காலத்தை வடிவமைக்கும் முன்னேறிய வளர்ச்சியைப் புரிந்துகொள்ள உங்களுக்கு உதவலாம்।</span>
+                <span class="lang-text" data-lang="te">నేను సంక్లిష్టమైన శాస్త్రీయ భావనలను వివరించగలను, తాజా సాంకేతిక ఆవిష్కరణలపై చర్చించగలను, మరియు మన భవిష్యత్తును రూపొందించే అత్యాధునిక అభివృద్ధిని మీకు అర్థం చేయడంలో సహాయం చేయగలను।</span>
+                <span class="lang-text" data-lang="mr">मी जटिल वैज्ञानिक संकल्पना स्पष्ट करू शकतो, नवीनतम तंत्रज्ञान नावीन्यांवर चर्चा करू शकतो आणि आपल्या भविष्याचे आकार घेणारे अत्याधुनिक विकास आपल्याला समजून घेण्यास मदत करू शकतो.</span>
+                <span class="lang-text" data-lang="gu">હું જટિલ વૈજ્ઞાનિક ખ્યાલોની સમજૂતી આપી શકું છું, નવીનતમ ટેકનોલોજીના નવીનીકરણો પર ચર્ચા કરી શકું છું, અને તમને અમારા ભવિષ્યને આકાર આપતા અત્યાધુનિક વિકાસને સમજવામાં મદદ કરી શકું છું.</span>
+                <span class="lang-text" data-lang="kn">ನಾನು ಸಂಕೀರ್ಣ ವೈಜ್ಞಾನಿಕ ಪರಿಕಲ್ಪನೆಗಳನ್ನು ವಿವರಿಸಬಹುದು, ಇತ್ತೀಚಿನ ತಾಂತ್ರಿಕ ಹೊಸತನಗಳನ್ನು ಚರ್ಚಿಸಬಹುದು ಮತ್ತು ನಮ್ಮ ಭವಿಷ್ಯವನ್ನು ರೂಪಿಸುವ ಅತ್ಯಾಧುನಿಕ ಬೆಳವಣಿಗೆಗಳನ್ನು ನಿಮಗೆ ಅರ್ಥಮಾಡಲು ಸಹಾಯ ಮಾಡಬಹುದು.</span>
+                <span class="lang-text" data-lang="ml">ഞാൻ സങ്കീർണ്ണമായ ശാസ്ത്രീയ ആശയങ്ങൾ വിശദീകരിക്കുകയും ഏറ്റവും പുതിയ സാങ്കേതിക നവീകരണങ്ങൾ ചർച്ച ചെയ്യുകയും നമ്മുടെ ഭാവി രൂപപ്പെടുത്തുന്ന അത്യാധുനിക വികസനങ്ങൾ നിങ്ങൾക്ക് മനസ്സിലാക്കാൻ സഹായിക്കുകയും ചെയ്യാം.</span>
+                <span class="lang-text" data-lang="pa">ਮੈਂ ਗੁੰਝਲਦਾਰ ਵਿਗਿਆਨਿਕ ਸੰਕਲਪਾਂ ਦੀ ਵਿਆਖਿਆ ਕਰ ਸਕਦਾ ਹਾਂ, ਨਵੀਨਤਮ ਤਕਨਾਲੋਜੀ ਨਵੇਂਤਰਨਾਂ 'ਤੇ ਚਰਚਾ ਕਰ ਸਕਦਾ ਹਾਂ, ਅਤੇ ਸਾਡੇ ਭਵਿੱਖ ਨੂੰ ਆਕਾਰ ਦੇਣ ਵਾਲੇ ਅਤਿ-ਆਧੁਨਿਕ ਵਿਕਾਸ ਨੂੰ ਸਮਝਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰ ਸਕਦਾ ਹਾਂ।</span>
+                <!-- Other Languages -->
+                <span class="lang-text" data-lang="ja">複雑な科学的概念を説明し、最新の技術革新について議論し、私たちの未来を形作る最先端の発展を理解するのを手伝うことができます。</span>
+                <span class="lang-text" data-lang="ar">يمكنني شرح المفاهيم العلمية المعقدة، ومناقشة أحدث الابتكارات التكنولوجية، ومساعدتك على فهم التطورات الرائدة التي تشكل مستقبلنا.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card history-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">🏯</div>
+              <h3>
+                <span class="lang-text active" data-lang="en">History and Culture</span>
+                <span class="lang-text" data-lang="es">Historia y Cultura</span>
+                <span class="lang-text" data-lang="fr">Histoire et Culture</span>
+                <span class="lang-text" data-lang="de">Geschichte und Kultur</span>
+                <span class="lang-text" data-lang="zh">历史与文化</span>
+                <!-- Indian Languages -->
+                <span class="lang-text" data-lang="hi">इतिहास और संस्कृति</span>
+                <span class="lang-text" data-lang="bn">ইতিহাস এবং সংস্কৃতি</span>
+                <span class="lang-text" data-lang="ta">வரலாறு மற்றும் கலாச்சாரம்</span>
+                <span class="lang-text" data-lang="te">చరిత్ర మరియు సంస్కృతి</span>
+                <span class="lang-text" data-lang="mr">इतिहास आणि संस्कृती</span>
+                <span class="lang-text" data-lang="gu">ઇતિહાસ અને સંસ્કૃતિ</span>
+                <span class="lang-text" data-lang="kn">ಇತಿಹಾಸ ಮತ್ತು ಸಂಸ್ಕೃತಿ</span>
+                <span class="lang-text" data-lang="ml">ചരിത്രവും സംസ്കാരവും</span>
+                <span class="lang-text" data-lang="pa">ਇਤਿਹਾਸ ਅਤੇ ਸਭਿਆਚਾਰ</span>
+                <!-- Other Languages -->
+                <span class="lang-text" data-lang="ja">歴史と文化</span>
+                <span class="lang-text" data-lang="ar">التاريخ والثقافة</span>
+              </h3>
+            </div>
+            <div class="flip-card-back">
+              <p>
+                <span class="lang-text active" data-lang="en">Explore ancient civilizations, understand cultural movements, and discover how historical events shaped our modern world. I provide detailed insights into human heritage and traditions.</span>
+                <span class="lang-text" data-lang="es">Explora civilizaciones antiguas, comprende movimientos culturales y descubre cómo los eventos históricos moldearon nuestro mundo moderno. Ofrezco perspectivas detalladas sobre el patrimonio y las tradiciones humanas.</span>
+                <span class="lang-text" data-lang="fr">Explorez les civilisations anciennes, comprenez les mouvements culturels et découvrez comment les événements historiques ont façonné notre monde moderne. Je fournis des aperçus détaillés du patrimoine et des traditions humaines.</span>
+                <span class="lang-text" data-lang="de">Erkunden Sie antike Zivilisationen, verstehen Sie kulturelle Bewegungen und entdecken Sie, wie historische Ereignisse unsere moderne Welt geformt haben. Ich biete detaillierte Einblicke in menschliches Erbe und Traditionen.</span>
+                <span class="lang-text" data-lang="zh">探索古代文明，了解文化运动，发现历史事件如何塑造了我们的现代世界。我提供关于人类遗产和传统的详细见解。</span>
+                <!-- Indian Languages -->
+                <span class="lang-text" data-lang="hi">प्राचीन सभ्यताओं का अन्वेषण करें, सांस्कृतिक आंदोलनों को समझें, और जानें कि ऐतिहासिक घटनाओं ने हमारी आधुनिक दुनिया को कैसे आकार दिया। मैं मानव विरासत और परंपराओं पर विस्तृत जानकारी प्रदान करता हूँ।</span>
+                <span class="lang-text" data-lang="bn">প্রাচীন সভ্যতা অন্বেষণ করুন, সাংস্কৃতিক আন্দোলন বুঝুন, এবং আবিষ্কার করুন কিভাবে ঐতিহাসিক ঘটনাগুলি আমাদের আধুনিক বিশ্বকে আকার দিয়েছে। আমি মানব ঐতিহ্য এবং ঐতিহ্য সম্পর্কে বিস্তারিত অন্তর্দৃষ্টি প্রদান করি।</span>
+                <span class="lang-text" data-lang="ta">பண்டைய நாகரிகங்களை ஆராய்ந்து, கலாச்சார இயக்கங்களைப் புரிந்துகொண்டு, வரலாற்று நிகழ்வுகள் எங்கள் நவீன உலகத்தை எவ்வாறு வடிவமைத்தன என்பதைக் கண்டறியவும். மனித பாரம்பரியம் மற்றும் மரபுகள் குறித்து விரிவான நுண்ணறிவுகளை நான் வழங்குகிறேன்.</span>
+                <span class="lang-text" data-lang="te">ప్రాచీన నాగరికతలను అన్వేషించండి, సాంస్కృతిక ఉద్యమాలను అర్థం చేసుకోండి, మరియు చారిత్రక సంఘటనలు మన ఆధునిక ప్రపంచాన్ని ఎలా రూపొందించాయో కనుగొనండి. మానవ వారసత్వం మరియు సంప్రదాయాలపై వివరణాత్మక అంతర్దృష్టులను నేను అందిస్తాను.</span>
+                <span class="lang-text" data-lang="mr">प्राचीन संस्कृतींचा शोध घ्या, सांस्कृतिक चळवळी समजून घ्या आणि ऐतिहासिक घटनांमुळे आपले आधुनिक जग कसे तयार झाले आहे हे शोधा. मी मानवी वारसा आणि परंपरांवर तपशीलवार माहिती देतो.</span>
+                <span class="lang-text" data-lang="gu">પ્રાચીન સભ્યતાઓની શોધ કરો, સાંસ્કૃતિક ચળવળોને સમજો અને જાણો કે કેવી રીતે ઐતિહાસિક ઘટનાઓએ અમારા આધુનિક વિશ્વને આકાર આપ્યો છે. હું માનવ વારસો અને પરંપરાઓ પર વિગતવાર દૃષ્ટિકોણ પ્રદાન કરું છું.</span>
+                <span class="lang-text" data-lang="kn">ಪ್ರಾಚೀನ ನಾಗರಿಕತೆಗಳನ್ನು ಅನ್ವೇಷಿಸಿ, ಸಾಂಸ್ಕೃತಿಕ ಚಳುವಳಿಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ ಮತ್ತು ಐತಿಹಾಸಿಕ ಘಟನೆಗಳು ನಮ್ಮ ಆಧುನಿಕ ಪ್ರಪಂಚವನ್ನು ಹೇಗೆ ಆಕಾರ ನೀಡಿವೆ ಎಂಬುದನ್ನು ಕಂಡುಹಿಡಿಯಿರಿ. ನಾನು ಮಾನವ ಪರಂಪರೆ ಮತ್ತು ಸಂಪ್ರದಾಯಗಳ ಬಗ್ಗೆ ವಿವರವಾದ ಒಳನೋಟಗಳನ್ನು ನೀಡುತ್ತೇನೆ.</span>
+                <span class="lang-text" data-lang="ml">പുരാതന നാഗരികതകൾ പര്യോക്ഷണം ചെയ്യുക, സാംസ്കാരിക പ്രസ്ഥാനങ്ങൾ മനസ്സിലാക്കുക, ചരിത്ര സംഭവങ്ങൾ നമ്മുടെ ആധുനിക ലോകത്തെ എങ്ങനെ രൂപപ്പെടുത്തി എന്ന് കണ്ടെത്തുക. മനുഷ്യ പൈതൃകത്തെയും പാരമ്പര്യങ്ങളെയും കുറിച്ച് ഞാൻ വിശദമായ ഉൾക്കാഴ്ചകൾ നൽകുന്നു.</span>
+                <span class="lang-text" data-lang="pa">ਪ੍ਰਾਚੀਨ ਸਭਿਆਚਾਰਾਂ ਦੀ ਖੋਜ ਕਰੋ, ਸੱਭਿਆਚਾਰਕ ਅੰਦੋਲਨਾਂ ਨੂੰ ਸਮਝੋ, ਅਤੇ ਦੇਖੋ ਕਿ ਇਤਿਹਾਸਕ ਘਟਨਾਵਾਂ ਨੇ ਸਾਡੇ ਆਧੁਨਿਕ ਸੰਸਾਰ ਨੂੰ ਕਿਵੇਂ ਆਕਾਰ ਦਿੱਤਾ ਹੈ। ਮੈਂ ਮਨੁੱਖੀ ਵਿਰਾਸਤੇ ਅਤੇ ਰਵਾਇਤਾਂ ਬਾਰੇ ਵਿਸਤ੍ਰਿਤ ਸੂਝ ਦਿੰਦਾ ਹਾਂ।</span>
+                <!-- Other Languages -->
+                <span class="lang-text" data-lang="ja">古代文明を探求し、文化運動を理解し、歴史的出来事がどのように現代世界を形作ったかを発見してください。人類の遺産と伝統に関する詳細な洞察を提供します。</span>
+                <span class="lang-text" data-lang="ar">استكشف الحضارات القديمة، وافهم الحركات الثقافية، واكتشف كيف شكلت الأحداث التاريخية عالمنا الحديث. أقدم رؤى مفصلة حول التراث البشري والتقاليد.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card arts-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">🎨</div>
+              <h3>
+                <span class="lang-text active" data-lang="en">Arts and Entertainment</span>
+                <span class="lang-text" data-lang="es">Arte y Entretenimiento</span>
+                <span class="lang-text" data-lang="fr">Arts et Divertissement</span>
+                <span class="lang-text" data-lang="de">Kunst und Unterhaltung</span>
+                <span class="lang-text" data-lang="zh">艺术与娱乐</span>
+                <span class="lang-text" data-lang="hi">कला और मनोरंजन</span>
+                <span class="lang-text" data-lang="bn">শিল্প এবং বিনোদন</span>
+                <span class="lang-text" data-lang="ta">கலை மற்றும் பொழுதுபோக்கு</span>
+                <span class="lang-text" data-lang="te">కళలు మరియు వినోదం</span>
+                <span class="lang-text" data-lang="mr">कला आणि मनोरंजन</span>
+                <span class="lang-text" data-lang="gu">કલા અને મનોરંજન</span>
+                <span class="lang-text" data-lang="kn">ಕಲೆ ಮತ್ತು ಮನರಂಜನೆ</span>
+                <span class="lang-text" data-lang="ml">കലയും വിനോദവും</span>
+                <span class="lang-text" data-lang="pa">ਕਲਾ ਅਤੇ ਮਨੋਰੰਜਨ</span>
+                <span class="lang-text" data-lang="ja">アートとエンターテイメント</span>
+                <span class="lang-text" data-lang="ar">الفنون والترفيه</span>
+              </h3>
+            </div>
+            <div class="flip-card-back">
+              <p>
+                <span class="lang-text active" data-lang="en">From classical masterpieces to modern digital art, I can discuss artistic movements, analyze films, recommend music, and explore creative expressions that enrich human experience.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card health-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">🥗</div>
+              <h3>
+                <span class="lang-text active" data-lang="en">Health and Wellness</span>
+                <span class="lang-text" data-lang="es">Salud y Bienestar</span>
+                <span class="lang-text" data-lang="fr">Santé et Bien-être</span>
+                <span class="lang-text" data-lang="de">Gesundheit und Wohlbefinden</span>
+                <span class="lang-text" data-lang="zh">健康与养生</span>
+                <span class="lang-text" data-lang="hi">स्वास्थ्य और कल्याण</span>
+                <span class="lang-text" data-lang="bn">স্বাস্থ্য এবং সুস্থতা</span>
+                <span class="lang-text" data-lang="ta">ஆரோக்கியம் மற்றும் நல்வாழ்க்கை</span>
+                <span class="lang-text" data-lang="te">ఆరోగ్యం మరియు సంక్షేమం</span>
+                <span class="lang-text" data-lang="mr">आरोग्य आणि कल्याण</span>
+                <span class="lang-text" data-lang="gu">સ્વાસ્થ્ય અને સુખ</span>
+                <span class="lang-text" data-lang="kn">ಆರೋಗ್ಯ ಮತ್ತು ಕಲ್ಯಾಣ</span>
+                <span class="lang-text" data-lang="ml">ആരോഗ്യവും ക്ഷേമവും</span>
+                <span class="lang-text" data-lang="pa">ਸਿਹਤ ਅਤੇ ਤੰਦਰੁਸਤੀ</span>
+                <span class="lang-text" data-lang="ja">健康とウェルネス</span>
+                <span class="lang-text" data-lang="ar">الصحة والعافية</span>
+              </h3>
+            </div>
+            <div class="flip-card-back">
+              <p>
+                <span class="lang-text active" data-lang="en">Access reliable health information, understand nutrition science, explore mental wellness strategies, and get guidance on maintaining a balanced lifestyle for optimal well-being.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card business-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">📊</div>
+              <h3>
+                <span class="lang-text active" data-lang="en">Business and Finance</span>
+                <span class="lang-text" data-lang="es">Negocios y Finanzas</span>
+                <span class="lang-text" data-lang="fr">Affaires et Finance</span>
+                <span class="lang-text" data-lang="de">Geschäft und Finanzen</span>
+                <span class="lang-text" data-lang="zh">商业与金融</span>
+                <span class="lang-text" data-lang="hi">व्यवसाय और वित्त</span>
+                <span class="lang-text" data-lang="bn">ব্যবসা এবং অর্থনীতি</span>
+                <span class="lang-text" data-lang="ta">வணிகம் மற்றும் நிதி</span>
+                <span class="lang-text" data-lang="te">వ్యాపారం మరియు ఆర్థికం</span>
+                <span class="lang-text" data-lang="mr">व्यवसाय आणि वित्त</span>
+                <span class="lang-text" data-lang="gu">વ્યાપાર અને નાણાકીય</span>
+                <span class="lang-text" data-lang="kn">ವ್ಯಾಪಾರ ಮತ್ತು ಹಣಕಾಸು</span>
+                <span class="lang-text" data-lang="ml">ബിസിനസും ധനകാര്യയും</span>
+                <span class="lang-text" data-lang="pa">ਕਾਰੋਬਾਰ ਅਤੇ ਵਿੱਤ</span>
+                <span class="lang-text" data-lang="ja">ビジネスと金融</span>
+                <span class="lang-text" data-lang="ar">الأعمال والمالية</span>
+              </h3>
+            </div>
+            <div class="flip-card-back">
+              <p>
+                <span class="lang-text active" data-lang="en">Analyze market trends, understand economic principles, explore investment strategies, and get insights into entrepreneurship and financial management for personal and professional growth.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card more-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">🤯</div>
+              <h3>
+                <span class="lang-text active" data-lang="en">And Many More!</span>
+                <span class="lang-text" data-lang="es">¡Y muchos más!</span>
+                <span class="lang-text" data-lang="fr">Et bien plus!</span>
+                <span class="lang-text" data-lang="de">Und vieles mehr!</span>
+                <span class="lang-text" data-lang="zh">还有更多！</span>
+                <span class="lang-text" data-lang="hi">और भी बहुत कुछ!</span>
+                <span class="lang-text" data-lang="bn">আরও অনেক কিছু!</span>
+                <span class="lang-text" data-lang="ta">மேலும் பல!</span>
+                <span class="lang-text" data-lang="te">మరియు మరిన్ని చాలా!</span>
+                <span class="lang-text" data-lang="mr">आणि आणखी बरेच!</span>
+                <span class="lang-text" data-lang="gu">અને ઘણું વધુ!</span>
+                <span class="lang-text" data-lang="kn">ಮತ್ತು ಇನ್ನಷ್ಟು!</span>
+                <span class="lang-text" data-lang="ml">കൂടുതൽ ധാരാളം!</span>
+                <span class="lang-text" data-lang="pa">ਅਤੇ ਹੋਰ ਬਹੁਤ ਕੁਝ!</span>
+                <span class="lang-text" data-lang="ja">その他多数！</span>
+                <span class="lang-text" data-lang="ar">والكثير أكثر!</span>
+              </h3>
+            </div>
+            <div class="flip-card-back">
+              <p>
+                <span class="lang-text active" data-lang="en">Sports, philosophy, languages, travel, cooking, fashion, environmental science, and virtually any topic you can imagine. My knowledge spans across countless domains to serve your curiosity.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="features" style="margin-top: 60px;">
+        <div class="flip-card data-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">📊</div>
+              <h3>Data Analysis</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>I can analyze complex datasets, identify patterns, generate insights, and help you make data-driven decisions. From statistical analysis to trend prediction, I turn raw data into actionable intelligence.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card creative-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">🌟</div>
+              <h3>Creative Solutions</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>Need innovative ideas? I excel at creative problem-solving, offering unique perspectives and out-of-the-box solutions to challenges across personal, professional, and academic domains.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card brainstorm-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">📝</div>
+              <h3>Brainstorming</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>Generate fresh ideas, explore possibilities, and develop concepts through collaborative brainstorming sessions. I help you think creatively and expand your innovative potential.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card education-theme">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="emoji">📚</div>
+              <h3>Educational Support</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>Provide detailed explanations, create tutorials, and offer step-by-step guidance on complex topics. I make learning accessible and engaging across all subjects and skill levels.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="about" style="margin-top: 50px;">
+        My capabilities extend beyond mere information retrieval. I can engage in natural conversations, using human-like language and tone, making our interactions feel more like a discussion with a knowledgeable friend. 
+      </p>
+      
+      <p class="about" style="margin-top: 20px;">
+        My goal is to assist, inform, and educate you, while maintaining a professional yet friendly tone. I'm here to help you explore your interests, answer your questions, and provide valuable insights to enhance your knowledge and understanding. 
+      </p>
+    </section>
+
+    <footer>
+      © 2026 ATLAS AI | Developed by K.V.SARVESH | Telegram Bot Edition
+    </footer>
+
+  </div>
+
+  <script>
+    function changeLanguage() {
+      const select = document.getElementById('languageSelect');
+      const selectedLang = select.value;
+      
+      // Hide all language texts
+      document.querySelectorAll('.lang-text').forEach(text => {
+        text.classList.remove('active');
+      });
+      
+      // Show selected language texts
+      document.querySelectorAll(`.lang-text[data-lang="${selectedLang}"]`).forEach(text => {
+        text.classList.add('active');
+      });
+      
+      // Save preference to localStorage
+      localStorage.setItem('selectedLanguage', selectedLang);
+    }
+    
+    // Load saved language preference on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedLanguage = localStorage.getItem('selectedLanguage');
+      if (savedLanguage) {
+        document.getElementById('languageSelect').value = savedLanguage;
+        changeLanguage();
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+
